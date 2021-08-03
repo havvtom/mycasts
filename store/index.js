@@ -18,13 +18,26 @@ export const mutations = {
   },
   SET_TAGS( state, tags ){
     state.tags = tags
+  },
+  SET_PLAYED_VIDEOS( state, videoIds ){
+    state.playedVideos = videoIds
   }
 }
 
 export const actions = {
+
+  setPlayedVideos({commit}, videoIds){
+    commit('SET_PLAYED_VIDEOS', videoIds)
+    window.localStorage.playedVideos = JSON.stringify(videoIds)
+  },
+  markAsPlayed({commit}, videoId){
+    let playedVideos = JSON.parse(window.localStorage.playedVideos).concat( videoId )
+    window.localStorage.playedVideos = JSON.stringify( playedVideos )
+    this.$axios.post('mark/' + videoId)
+  },
   async nuxtServerInit({ commit }) {
-    let videos = await this.$axios.$get('http://localhost:8000/api/videos')
-    let tags = await this.$axios.$get('http://localhost:8000/api/tags')
+    let videos = await this.$axios.$get('/videos')
+    let tags = await this.$axios.$get('/tags')
 
     commit ('SET_VIDEOS', videos.data)
     commit('SET_TAGS', tags.data)

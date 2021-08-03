@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h1>Videos</h1>
-    <div class="video-container">
+    <h1 class="display-2 ma-4 d-flex justify-center">All Videos</h1>
+    <div class="d-flex flex-wrap">
       <div v-for="video in videos" :key="video.name">        
-          <Video :video="video"/>        
+          <Video :video="video" class="ma-2"/>        
       </div>
     </div>
   </div>
@@ -14,6 +14,6 @@
   export default {
     computed: {
         ...mapState(['videos', 'tags'])
-    },
+    }
   }
 </script>

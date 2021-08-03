@@ -1,26 +1,36 @@
 <template>
-	<div class="video-box">
-		<img :src="video.thumbnail">
+	<v-card width="340" hover :to="{ name: 'videos-id', params: { id: video.id } }">
+		<v-img :src="video.thumbnail"></v-img>
+				<client-only>
           <div>
-          	<nuxt-link :to="{ name: 'videos-id', params: { id: video.id } }">
-	            <h3>{{ video.name }}</h3>
-	            <div>
-	              {{ video.description }}
-	            </div>
-	        </nuxt-link>
-            <span  v-for="tag in video.tags.data" :key="tag.slug">
-		        <nuxt-link class="tag-button" :to="{ name:'tags-slug', params:{ slug: tag.slug } }">
-			        {{ tag.title }}
-			    </nuxt-link>
-		    </span>
+            <v-card-title>{{ video.name }}</v-card-title>
+            <v-card-text>
+              <p>{{ video.description }}</p>
+              <div v-if="isPlayed" class="green--text"><v-icon class="mr-2" color="green">done</v-icon></span>Played</div>
+            </v-card-text>
+            <v-card-actions>
+				        <span  v-for="tag in video.tags.data" :key="tag.slug">
+						        <v-btn
+						        	:to="{ name:'tags-slug', params:{ slug: tag.slug } }"
+							      rounded
+							      color="indigo darken-2"
+							      class="mr-2"
+							      dark
+							      small
+							    >
+							      {{ tag.title }}
+							    </v-btn>
+						    </span>
+						</v-card-actions>
           </div>
-	</div>
+        </client-only>
+	</v-card>
 </template>
 <script type="text/javascript">
 	export default {
 		data () {
 			return {
-				
+				isPlayed: false
 			}
 		},
 		props: {
@@ -28,23 +38,15 @@
 				type: Object,
 				required: true
 			}
+		},
+		mounted () {
+			if( this.$auth.user ){
+				let playedVideos = JSON.parse(window.localStorage.playedVideos)
+				this.isPlayed = playedVideos.includes( this.video.id )
+			}
 		}
 	}
 </script>
 <style scoped> 
-  .video-box{
-    border: 1px solid white;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    text-align: left;
-    display: flex;
-    justify-content: flex-start;
-  }
-    img {
-    border-style: none;
-    height: 150px;
-    width: 150px;
-    padding: 10px;
-  }
+   
 </style>

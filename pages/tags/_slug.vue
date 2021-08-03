@@ -1,8 +1,10 @@
 <template>
 	<div>
-		Pano pama tags
-		<div v-for="video in videos" :key="video.id">
-			<Video :video="video"/>      
+		<h1 class="display-2 d-flex justify-center ma-4">{{$route.params.slug}}</h1>
+		<div class="d-flex flex-wrap">
+			<div v-for="video in videos" :key="video.id" class="ma-2">
+				<Video :video="video"/>      
+			</div>
 		</div>
 	</div>
 </template>
@@ -22,6 +24,7 @@
 							return vid
 						} 
 					} )
+
 			return {
 				videos: videos
 			}

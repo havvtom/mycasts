@@ -51,7 +51,7 @@
       </v-btn>
       <client-only>
         <v-btn text  :to="{ name: 'index' }" class="mr-2">My Casts</v-btn>
-        <v-btn text  :to="{ name: 'videos-create' }" >Add Video</v-btn>
+        <v-btn text  :to="{ name: 'admin-videos' }" >Admin</v-btn>
       </client-only>
       <v-spacer />
       <v-btn

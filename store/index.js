@@ -21,6 +21,10 @@ export const mutations = {
   },
   SET_PLAYED_VIDEOS( state, videoIds ){
     state.playedVideos = videoIds
+  },
+  ADD_VIDEO( state, video ){
+    let videos = state.videos.concat(video)
+    state.videos = videos
   }
 }
 
@@ -34,6 +38,9 @@ export const actions = {
     let playedVideos = JSON.parse(window.localStorage.playedVideos).concat( videoId )
     window.localStorage.playedVideos = JSON.stringify( playedVideos )
     this.$axios.post('mark/' + videoId)
+  },
+  addVideo({commit}, video){
+    commit('ADD_VIDEO', video)
   },
   async nuxtServerInit({ commit }) {
     let videos = await this.$axios.$get('/videos')

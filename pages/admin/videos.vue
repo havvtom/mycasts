@@ -1,5 +1,6 @@
 <template>
 	<v-container>
+		<Admin/>
 		<v-btn class="ma-2" color="blue"  :to="{ name: 'videos-create' }" >Add Video</v-btn>
 
 		  	<template>
@@ -24,6 +25,7 @@
 					        color="red"
 					        dark
 					        small
+					        @click="deleteVideo(item)"
 					      >
 					        Del
 					        <v-icon
@@ -38,6 +40,7 @@
 					        color="blue"
 					        dark
 					        small
+					        :to="{ name: 'videos-edit-id' , params: { id:item.id }}"
 					      >
 					        Edit
 					        <v-icon
@@ -58,6 +61,14 @@
 <script type="text/javascript">
 	import { mapState } from 'vuex'
 	export default {
+		middleware({ store, redirect, app }) {
+	      // If the user is not authenticated
+	     if( !app.$auth.user ){
+	     	return redirect('/login')
+	     }else if( !app.$auth.user.data.admin ){
+	     	return redirect('/')
+	     }
+	  	},
 		computed: {
 	        ...mapState(['videos', 'tags'])
 	    },
@@ -77,6 +88,16 @@
 		        ],
 
       		}
+		},
+		methods: {
+			deleteVideo(video){
+				this.$store.dispatch('deleteVideo', video)
+
+				this.$store.dispatch('setSnackbar', {
+						showing: true,
+						text: `You have successfully deleted video, ${video.name}`
+					})
+			}
 		}	   
 
 	}

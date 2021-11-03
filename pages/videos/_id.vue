@@ -45,7 +45,6 @@
 		data () {
 			return {
 				isPlayed: false,
-				video: {}
 			}
 		},
 		computed: {			
@@ -62,7 +61,10 @@
 		          fluid: true        
 		        }
 			},
-			...mapState(['playedVideos']),
+			...mapState(['playedVideos', 'videos', 'tags']),
+			video () {
+				return this.videos.find( v => v.id == this.$route.params.id )
+			}
 		},
 		methods: {
 			markAsPlayed () {
@@ -75,13 +77,14 @@
 				let playedVideos = JSON.parse(window.localStorage.playedVideos)
 				this.isPlayed = playedVideos.includes( this.video.id )
 			}
+			
 		},
-		async asyncData ({ app, params, store }) {
-			let video = store.state.videos.find(vid=> vid.id == params.id)
-			return {
-				video: video
-			}
-		}
+		// async asyncData ({ app, params, store }) {
+		// 	let video = store.state.videos.find(vid=> vid.id == params.id)
+		// 	return {
+		// 		video: video
+		// 	}
+		// }
 	}
 </script>
 <style>

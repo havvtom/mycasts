@@ -51,7 +51,16 @@
       </v-btn>
       <client-only>
         <v-btn text  :to="{ name: 'index' }" class="mr-2">My Casts</v-btn>
-        <v-btn text  :to="{ name: 'admin-videos' }" >Admin</v-btn>
+        <v-btn text  :to="{ name: 'admin-videos' }" v-if="$auth.user && $auth.user.data.admin" >Admin</v-btn>
+        <v-spacer></v-spacer>
+        <div v-if="$auth.user">
+          <v-btn text  :to="{ name: 'index' }" class="mr-2" >{{ $auth.user.data.name }}</v-btn>
+          <v-btn text  @click.prevent="logout" class="mr-2">Logout</v-btn>
+        </div>
+        <div v-else>
+          <v-btn text  :to="{ name: 'login' }" class="mr-2" >Login</v-btn>
+          <v-btn text  :to="{ name: 'register' }" class="mr-2" >Register</v-btn>
+        </div>
       </client-only>
       <v-spacer />
       <v-btn
@@ -83,6 +92,16 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <v-snackbar
+        v-model="snackbar.showing"
+        color="success"
+        :timeout="-1"
+      >
+        {{snackbar.text}}
+      <v-btn text @click="closeSnackbar">
+        Close
+      </v-btn>
+    </v-snackbar>
     <v-footer
       :absolute="!fixed"
       app
@@ -93,7 +112,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
+  computed: {
+    ...mapState(['snackbar'])
+  },
   data () {
     return {
       clipped: false,
@@ -115,6 +138,16 @@ export default {
       right: true,
       rightDrawer: false
     }
+  },
+  methods: {
+     closeSnackbar () {
+      this.$store.dispatch('setSnackbar', {
+          showing: false,
+      })
+    },
+    async logout () {
+        await this.$auth.logout()
+      }
   }
 }
 </script>

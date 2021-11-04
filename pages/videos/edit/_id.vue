@@ -30,8 +30,20 @@
 				      	:rules="[required('video thumbnail')]"
 	          			@input.native="updateLocalVideo($event);"
 				    ></v-text-field>
-
-				    <v-select inputId="tags" :items="tags" item-text="title" label="Tags" item-value="id" multiple v-model="video.tags"  ></v-select>
+				    <v-autocomplete
+				    	inputId="tags"
+				    	:items="tags"
+				    	item-text="title"
+				    	label="Tags"
+				    	item-value="id" 
+				    	multiple
+				    	v-model="video.tags"
+				    	chips
+				    	deletable-chips
+				    	hide-selected
+				    >				    	
+				    </v-autocomplete>
+				    <!-- <v-select inputId="tags" :items="tags" item-text="title" label="Tags" item-value="id" multiple v-model="video.tags"  ></v-select> -->
 
 				    <v-text-field
 				      	label="Video URL"

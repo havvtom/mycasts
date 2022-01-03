@@ -94,7 +94,7 @@
     </v-navigation-drawer>
     <v-snackbar
         v-model="snackbar.showing"
-        color="success"
+        :color="snackbar.color"
         :timeout="-1"
       >
         {{snackbar.text}}

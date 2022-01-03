@@ -106,7 +106,7 @@
 		},
 		methods: {
 			updateLocalVideo (e) {
-				// console.log(e.target.id, e.target.value)
+				//video is an empty object in data and is updated everytime a property is updated
 				this.$set(this.video, e.target.id, e.target.value);
 			},
 			async updateVideo () {
@@ -118,6 +118,7 @@
 					let response = await this.$axios.patch(`videos/${video.id}`, video)
 					this.$store.dispatch('setSnackbar', {
 						showing: true,
+						color: "success",
 						text: `You have successfully edited video, ${response.data.data.name}`
 					})
 					this.$store.dispatch('editVideo', response.data.data)

@@ -40,12 +40,28 @@ export const mutations = {
     let videos = state.videos.concat(video)
     state.videos = videos
   },
+  ADD_TAG( state, tag ){
+    let tags = state.tags.concat(tag)
+    state.tags = tags
+  },
+  DELETE_TAG( state, tagId ){
+    let tags = state.tags.filter( t => t.id != tagId)
+    state.tags = tags
+  },
   DELETE_VIDEO( state, videoId ){
     let videos = state.videos.filter( v => v.id != videoId)
     state.videos = videos
   },
+  EDIT_TAG( state, tag ){
+    //to figure a way to update the state videos with this tag
+    let tIndex = state.tags.findIndex( t => t.id == tag.id )
+     state.tags = [
+      ...state.tags.slice(0, tIndex),
+      tag,
+      ...state.tags.slice(tIndex + 1)
+    ]
+  },
   EDIT_VIDEO( state, video ){
-    // console.log()
     let vIndex = state.videos.findIndex( v => v.id == video.id )
      state.videos = [
       ...state.videos.slice(0, vIndex),
@@ -69,11 +85,23 @@ export const actions = {
   addVideo({commit}, video){
     commit('ADD_VIDEO', video)
   },
+  addTag({commit}, tag){
+    commit('ADD_TAG', tag)
+  },
   setSnackbar({commit}, snackbar){
     commit('SET_SNACKBAR', snackbar)
   },
+  editTag({commit}, tag){
+    commit('EDIT_TAG', tag)
+  },
   async editVideo({commit}, video){
     commit('EDIT_VIDEO', video)
+  },
+  async deleteTag({commit}, tag){
+    //delete video from server
+    await this.$axios.$delete(`tags/${tag.id}`)
+    //delete video from state
+    commit('DELETE_TAG', tag.id)
   },
   async deleteVideo({commit}, video){
     //delete video from server

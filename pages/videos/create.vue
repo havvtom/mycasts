@@ -23,8 +23,20 @@
 				      v-model="video.thumbnail"
 				      :rules="[required('video thumbnail')]"
 				    ></v-text-field>
-
-				    <v-select inputId="tags" :items="tags" item-text="title" label="Tags" item-value="id" multiple v-model="video.tags"  ></v-select>
+				    <v-autocomplete
+				    	inputId="tags"
+				    	:items="tags"
+				    	item-text="title"
+				    	label="Tags"
+				    	item-value="id" 
+				    	multiple
+				    	v-model="video.tags"
+				    	chips
+				    	deletable-chips
+				    	hide-selected
+				    >				    	
+				    </v-autocomplete>
+				   <S3FileUpload :video="video" fieldName="thumbnail" />
 
 				    <v-text-field
 				      label="Video URL"
@@ -100,7 +112,8 @@
 				} catch (e) {
 					
 				}
-			}
+			},
+			
 		}
 	}
 </script>

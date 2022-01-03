@@ -8,8 +8,8 @@
               <p>{{ video.description }}</p>
               <div v-if="isPlayed" class="green--text"><v-icon class="mr-2" color="green">done</v-icon></span>Played</div>
             </v-card-text>
-            <v-card-actions>
-				        <span  v-for="tag in video.tags.data" :key="tag.slug">
+            <v-card-actions class="d-flex flex-wrap">
+				        <span  v-for="tag in video.tags.data" :key="tag.slug" class="mb-2">
 						        <v-btn
 						        	:to="{ name:'tags-slug', params:{ slug: tag.slug } }"
 							      rounded

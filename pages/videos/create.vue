@@ -18,11 +18,13 @@
 				      auto-grow			      
 				    ></v-textarea>
 
+				    <S3FileUpload :video="video" fieldName="thumbnail"/>
 				    <v-text-field
-				      label="Video Thumbnail"
+				      label="Video Thumbnail Url"
 				      v-model="video.thumbnail"
 				      :rules="[required('video thumbnail')]"
 				    ></v-text-field>
+
 				    <v-autocomplete
 				    	inputId="tags"
 				    	:items="tags"
@@ -36,7 +38,7 @@
 				    	hide-selected
 				    >				    	
 				    </v-autocomplete>
-				   <S3FileUpload :video="video" fieldName="thumbnail" />
+				   <S3FileUpload :video="video" fieldName="videoUrl" />
 
 				    <v-text-field
 				      label="Video URL"

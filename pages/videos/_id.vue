@@ -79,12 +79,6 @@
 			}
 			
 		},
-		// async asyncData ({ app, params, store }) {
-		// 	let video = store.state.videos.find(vid=> vid.id == params.id)
-		// 	return {
-		// 		video: video
-		// 	}
-		// }
 	}
 </script>
 <style>

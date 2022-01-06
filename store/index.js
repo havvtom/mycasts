@@ -21,6 +21,9 @@ export const getters = {
 }
 
 export const mutations = {
+  SET_VIDEOS_CURRENT_PAGE( state, page ){
+    state.videos.meta.current_page = page
+  },
   SET_VIDEOS( state, videos ){
     state.videos = videos
   },
@@ -72,7 +75,9 @@ export const mutations = {
 }
 
 export const actions = {
-
+  setVideosCurrentPage({commit}, page){
+    commit('SET_VIDEOS_CURRENT_PAGE', page)
+  },
   setPlayedVideos({commit}, videoIds){
     commit('SET_PLAYED_VIDEOS', videoIds)
     window.localStorage.playedVideos = JSON.stringify(videoIds)
@@ -97,6 +102,9 @@ export const actions = {
   async editVideo({commit}, video){
     commit('EDIT_VIDEO', video)
   },
+  async setVideos({commit}, videos){
+    commit('SET_VIDEOS', videos)
+  },
   async deleteTag({commit}, tag){
     //delete video from server
     await this.$axios.$delete(`tags/${tag.id}`)
@@ -113,8 +121,8 @@ export const actions = {
     let videos = await this.$axios.$get('/videos')
     let tags = await this.$axios.$get('/tags')
     let users = await this.$axios.$get('/users')
-
-    commit ('SET_VIDEOS', videos.data)
+    
+    commit ('SET_VIDEOS', videos)
     commit('SET_TAGS', tags.data)
     commit('SET_USERS', users.data)
   }

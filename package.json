@@ -16,9 +16,10 @@
     "core-js": "^3.9.1",
     "dotenv": "^10.0.0",
     "nuxt": "^2.15.7",
-    "vue-video-player": "^5.0.2"
+    "vue-video-player": "^5.0.2",
+    "@nuxtjs/vuetify": "^1.11.3"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.11.3"
+    
   }
 }

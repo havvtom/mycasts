@@ -54,7 +54,7 @@ export default {
     strategies: {
       'laravelJWT': {
         provider: 'laravel/jwt',
-        url: process.env.API_URL,
+        url: 'https://hidden-peak-29690.herokuapp.com/api',
         endpoints: {
           login: {
             url: '/auth/login',

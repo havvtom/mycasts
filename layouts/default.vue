@@ -1,97 +1,162 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
       fixed
       app
       color="indigo darken-2"
+    > 
+
+    <!-- Show menu button if user is logged in and is admin -->
+
+    <v-menu v-if="$auth.user && $auth.user.data.admin"
+
+      bottom
+      origin="center center"
+      transition="scale-transition"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <client-only>
-        <v-btn text  :to="{ name: 'index' }" class="mr-2">My Casts</v-btn>
-        <v-btn text  :to="{ name: 'admin-videos' }" v-if="$auth.user && $auth.user.data.admin" >Admin</v-btn>
-        <v-spacer></v-spacer>
-        <div v-if="$auth.user">
-          <v-btn text  :to="{ name: 'index' }" class="mr-2" >{{ $auth.user.data.name }}</v-btn>
-          <v-btn text  @click.prevent="logout" class="mr-2">Logout</v-btn>
-        </div>
-        <div v-else>
-          <v-btn text  :to="{ name: 'login' }" class="mr-2" >Login</v-btn>
-          <v-btn text  :to="{ name: 'register' }" class="mr-2" >Register</v-btn>
-        </div>
-      </client-only>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          class="hidden-md-and-up"
+        >
+          Menu
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item
+          ripple
+          :to="{ name: 'admin-videos' }"
+        >
+          <v-list-item-action>
+            <v-icon></v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title >Admin</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          @click="logout"
+          ripple
+        >
+        <v-list-item-action>
+            <v-icon>logout</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+            <v-list-item-title >Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
+    <!-- End of admin user -->
+
+    <!-- Show menu if user is not logged in -->
+
+    <v-menu v-if="!$auth.user"
+
+      bottom
+      origin="center center"
+      transition="scale-transition"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          class="hidden-md-and-up"
+        >
+          Menu
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in items"
+          :to="item.to"
+          :key="index"
+        >
+          <v-list-item-action>
+            <v-icon>{{item.icon}}</v-icon>
+          </v-list-item-action>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
+    <!-- End of not looged in user -->
+
+    <!-- Show logout button if user islogged in but not admin -->
+    <v-menu v-if="$auth.user && !$auth.user.data.admin"
+
+      bottom
+      origin="center center"
+      transition="scale-transition"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          class="hidden-md-and-up"
+        >
+          Menu
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item
+          ripple
+          :to="{ name: 'admin-videos' }"
+        >
+          <v-list-item-action>
+            <v-icon></v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title >{{ $auth.user.data.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          @click="logout"
+          ripple
+        >
+        <v-list-item-action>
+            <v-icon>logout</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+            <v-list-item-title >Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+   <!-- End of looged in user not admin -->
+        <v-tabs class="hidden-sm-and-down">
+          <v-tab text  :to="{ name: 'index' }" class="mr-2">My Casts</v-tab>
+          <v-tab text  :to="{ name: 'admin-videos' }" v-if="$auth.user && $auth.user.data.admin" >Admin</v-tab>
+          <v-spacer></v-spacer>
+            <template v-if="$auth.user">
+              <v-tab text disabled  class="mr-2" >{{ $auth.user.data.name }}</v-tab>
+              <v-tab text  @click.prevent="logout" class="mr-2">Logout</v-tab>
+            </template>
+            <template v-else>
+              <v-tab text  :to="{ name: 'login' }" class="mr-2" >Login</v-tab>
+              <v-tab text  :to="{ name: 'register' }" class="mr-2" >Register</v-tab>
+            </template>
+        </v-tabs>    
       <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      
     </v-app-bar>
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    
     <v-snackbar
         v-model="snackbar.showing"
         :color="snackbar.color"
@@ -103,7 +168,7 @@
       </v-btn>
     </v-snackbar>
     <v-footer
-      :absolute="!fixed"
+      fixed
       app
     >
       <span>&copy; {{ new Date().getFullYear() }}</span>
@@ -115,23 +180,39 @@
 import { mapState } from 'vuex'
 export default {
   computed: {
-    ...mapState(['snackbar'])
+    ...mapState(['snackbar']),
+    menuItems () {
+      if( this.$auth.user ){
+        return this.loggedInItems
+      }
+      return this.items
+    }, 
   },
   data () {
     return {
-      clipped: false,
       drawer: false,
-      fixed: false,
       items: [
         {
+          icon: 'login',
+          title: 'Login',
+          to: '/login'
+        },
+        {
+          icon: '',
+          title: 'Register',
+          to: { name: 'register' }
+        }
+      ],
+      loggedInItems: [
+        {
           icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
+          title: 'Logout',
+          to: '/logout'
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          title: 'Admin',
+          to: { name: 'admin-videos' }
         }
       ],
       miniVariant: false,

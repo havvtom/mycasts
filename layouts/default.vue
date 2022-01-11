@@ -30,14 +30,13 @@
         <v-list-item
           :to="{ name: 'index' }"
           ripple
-          v-if="$route.name != 'index'"
           exact
         >
         <v-list-item-action>
             <v-icon></v-icon>
         </v-list-item-action>
         <v-list-item-content>
-            <v-list-item-title >Back to Videos</v-list-item-title>
+            <v-list-item-title >Videos</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -92,6 +91,7 @@
           v-for="(item, index) in items"
           :to="item.to"
           :key="index"
+          exact
         >
           <v-list-item-action>
             <v-icon>{{item.icon}}</v-icon>
@@ -205,6 +205,11 @@ export default {
     return {
       drawer: false,
       items: [
+      {
+          icon: '',
+          title: 'Videos',
+          to: { name: 'index' }
+        },
         {
           icon: 'login',
           title: 'Login',
@@ -215,22 +220,7 @@ export default {
           title: 'Register',
           to: { name: 'register' }
         }
-      ],
-      loggedInItems: [
-        {
-          icon: 'mdi-apps',
-          title: 'Logout',
-          to: '/logout'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Admin',
-          to: { name: 'admin-videos' }
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false
+      ]
     }
   },
   methods: {

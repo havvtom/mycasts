@@ -16,7 +16,7 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-          color="primary"
+          color="indigo darken-2"
           dark
           v-bind="attrs"
           v-on="on"
@@ -27,6 +27,19 @@
       </template>
 
       <v-list>
+        <v-list-item
+          :to="{ name: 'index' }"
+          ripple
+          v-if="$route.name != 'index'"
+          exact
+        >
+        <v-list-item-action>
+            <v-icon></v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+            <v-list-item-title >Back to Videos</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item
           ripple
           :to="{ name: 'admin-videos' }"
@@ -120,7 +133,7 @@
           <v-list-item-content>
             <v-list-item-title >{{ $auth.user.data.name }}</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item>        
         <v-list-item
           @click="logout"
           ripple
@@ -229,6 +242,9 @@ export default {
     async logout () {
         await this.$auth.logout()
       }
+  },
+  mounted () {
+    console.log(this.$route.name)
   }
 }
 </script>

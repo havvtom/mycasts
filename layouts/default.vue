@@ -200,7 +200,7 @@ export default {
       drawer: false,
       items: [
       {
-          icon: 'play',
+          icon: '',
           title: 'Videos',
           to: { name: 'index' }
         },

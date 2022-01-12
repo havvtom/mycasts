@@ -1,25 +1,14 @@
 <template>
 	<div>
 		<h1 class="display-2 d-flex justify-center ma-4">{{$route.params.slug}}</h1>
-		<div class="d-flex flex-wrap">
-			<div v-for="video in videos" :key="video.id" >
+		<v-row >
+			<v-col v-for="video in videos" :key="video.id" md="6" lg="4">
 				<Video :video="video" class="ma-2"/>      
-			</div>
-		</div>
+			</v-col>
+		</v-row>
 		<Paginate :meta="meta" v-on:switched="getVideos"/>
 	</div>
 </template>
-<!-- <template>
-  <div>
-    <h1 class="display-2 ma-4 d-flex justify-center">All Videos</h1>
-    <div class="d-flex flex-wrap">
-      <div v-for="video in videos" :key="video.name">        
-          <Video :video="video" class="ma-2"/>        
-      </div>
-    </div>
-    <Paginate :meta="meta" v-on:switched="getVideos"/>
-  </div>
-</template> -->
 
 <script type="text/javascript">
 	export default {
@@ -43,6 +32,8 @@
 	    },
 	    mounted(){
 	      this.getVideos()
+
 	    }
 	}
 </script>
+

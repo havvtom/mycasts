@@ -194,19 +194,13 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState(['snackbar']),
-    menuItems () {
-      if( this.$auth.user ){
-        return this.loggedInItems
-      }
-      return this.items
-    }, 
   },
   data () {
     return {
       drawer: false,
       items: [
       {
-          icon: '',
+          icon: 'play',
           title: 'Videos',
           to: { name: 'index' }
         },
@@ -232,9 +226,6 @@ export default {
     async logout () {
         await this.$auth.logout()
       }
-  },
-  mounted () {
-    console.log(this.$route.name)
   }
 }
 </script>

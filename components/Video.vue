@@ -1,5 +1,5 @@
 <template>
-	<v-card width="340" hover :to="{ name: 'videos-id', params: { id: video.id } }">
+	<v-card width="full" hover :to="{ name: 'videos-id', params: { id: video.id } }">
 		<v-img :src="video.thumbnail"></v-img>
 				<client-only>
           <div>
